@@ -1,0 +1,22 @@
+網路與系統安全 期中報告				資財三乙 108AB0728 胡茜雯
+
+EVENT: A software development testing tools from a startup called Codecov was hacked at April 22, 2021.
+
+DESCRIBE: Codecov provides a hosted service that tells developers how much of their source code has been checked by the automated tests that are part of their software build process.
+Codecov reads the output generated which execution paths your test code has missed.
+
+Supply-Chain Attacks: A supply-chain attack compromises a supplier or service provider in order to compromise the real targets—all of their customers and users.
+
+The Codecov Attack:
+On April 15, 2021, Codecov publicly disclosed that a Bash script used to upload files to its servers had been modified by threat actors. 
+The initial compromise at Codecov is thought to have occurred in late January 2021.
+The compromised script collected sensitive information from customers’ continuous integration environments and uploaded that information to the attacker’s server. 
+Access credentials such as ID tokens and API keys as well as anything stored in environment variables were harvested by the modified script.
+
+By injecting a single line of code into Codecov's Bash uploader script, the threat actors had the means to access the continuous integration environments of all customers that used the script.
+And because that script is used in three of Codecov's uploading routines—Codecov-actions, CircleCl Orb, and Bitrise Step, that they have been exposed to the threat of unauthorized access.
+
+Because credentials, connection keys, and other sensitive and confidential information are passed from step to step of the CI/CD process, the threat actors may have harvested those details.
+	Any authentication or privilege credentials, tokens, or keys that were accessible to the script while customer CI/CD processes were running.
+	Any third-party services, data, or source code that could be accessed by the CI/Cd processes
+	The git remote repository details.
